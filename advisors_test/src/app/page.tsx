@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 import Image from "next/image"
 import "./index.css"
-import { SearchIcon } from "lucide-react"
+import { ContactRoundIcon, SearchIcon } from "lucide-react"
 import Input from "@/components/Input"
 
 function Home() {
@@ -26,6 +26,9 @@ function Home() {
         width={140}
         height={60}
       />
+      <div className="home__avatar">
+        <ContactRoundIcon size={36} strokeWidth={1} />
+      </div>
       <div className="home__text">
         <h2 className="home__text--title">Find your company Advisors!</h2>
         <p className="home__text--paragraph">
