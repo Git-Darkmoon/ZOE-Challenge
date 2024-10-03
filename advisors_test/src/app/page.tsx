@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 import Image from "next/image"
 import "./index.css"
+import { SearchIcon } from "lucide-react"
+import Input from "@/components/Input"
 
 function Home() {
   const navigate = useRouter()
@@ -31,14 +33,10 @@ function Home() {
         </p>
       </div>
       <form className="home__incomeForm" onSubmit={sendIncome}>
-        <label className="home__incomeForm--label" htmlFor="income">
-          Current income
-        </label>
-        <input
-          className="input"
-          type="number"
+        <Input
+          label="Current Income"
           name="income"
-          id="income"
+          type="number"
           value={incomeValue}
           onChange={(e) => setIncomeValue(e.target.value)}
           min="10000.00"
@@ -46,10 +44,9 @@ function Home() {
           step="0.01"
           autoComplete="off"
           title="Enter a positive number with 5 characters"
-          required
         />
         <button className="btn btn__primary" type="submit">
-          Search
+          Search Now <SearchIcon size={18} />
         </button>
       </form>
     </div>
