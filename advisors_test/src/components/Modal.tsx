@@ -13,13 +13,13 @@ function Modal({
   action: (event: FormEvent<HTMLFormElement>) => void | Promise<void>
   advisorData?: Advisor
 }) {
-  const [avatarPreview, setAvatarPreview] = useState("/default_avatar.avif") // Default avatar image
-  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarPreview, setAvatarPreview] = useState("/default_avatar.avif")
+  // const [avatarFile, setAvatarFile] = useState<File | null>(null)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      setAvatarFile(file)
+      // setAvatarFile(file)
       setAvatarPreview(URL.createObjectURL(file))
     }
   }
@@ -66,7 +66,7 @@ function Modal({
               type="button"
               onClick={() => {
                 setAvatarPreview("/default_avatar.avif")
-                setAvatarFile(null)
+                // setAvatarFile(null)
               }}
             >
               Remove
@@ -102,21 +102,6 @@ function Modal({
               />
             </div>
 
-            {/* ID Number */}
-            <div>
-              <label htmlFor="idNumber">ID Number</label>
-              <input
-                className="input"
-                type="number"
-                name="id"
-                id="idNumber"
-                placeholder="732"
-                max={9999}
-                min={1}
-                required
-              />
-            </div>
-
             {/* Income */}
             <div>
               <label htmlFor="income">Income</label>
@@ -141,6 +126,32 @@ function Modal({
                 name="phone"
                 id="phone"
                 placeholder="08012345678"
+                required
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                className="input"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="namv@zoefin.com"
+                required
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label htmlFor="address">Address</label>
+              <input
+                className="input"
+                type="text"
+                name="address"
+                id="address"
+                placeholder="123 Main Street, London"
                 required
               />
             </div>
