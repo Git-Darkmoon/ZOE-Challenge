@@ -127,7 +127,7 @@ body {
   background-color: var(--clr-secondaryGray);
   z-index: 100;
   backdrop-filter: blur(3px);
-  transition: all 0.25s;
+  transition: var(--transition);
   transition-behavior: allow-discrete;
   opacity: 0;
 }
@@ -143,6 +143,13 @@ body {
   }
 }
 
+.modal--open > .modal__card {
+  opacity: 1;
+  @starting-style {
+    opacity: 0;
+  }
+}
+
 .modal__card {
   background-color: var(--clr-white);
   width: 100%;
@@ -152,6 +159,8 @@ body {
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+
+  opacity: 0;
 }
 
 .modal__card__header {
@@ -339,6 +348,25 @@ body {
   transition: var(--transition);
   cursor: pointer;
   position: relative;
+
+  view-timeline-name: --revealRow;
+
+  animation-name: showRow;
+  animation-fill-mode: both;
+
+  animation-timeline: --revealRow;
+  animation-range: entry 5% cover 20%;
+}
+
+@keyframes showRow {
+  from {
+    opacity: 0;
+    scale: 10%;
+  }
+  to {
+    opacity: 1;
+    scale: 100%;
+  }
 }
 
 .table__link:hover {
