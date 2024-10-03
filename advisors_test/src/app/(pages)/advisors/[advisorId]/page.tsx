@@ -51,7 +51,7 @@ function AdvisorDetailsPage({ params }: { params: { advisorId: string } }) {
 
         if (response.ok) {
           alert("Advisor deleted successfully")
-          navigate.replace(ROUTES.HOME)
+          navigate.replace(`${ROUTES.ADVISORS}?income=${advisor?.income}`)
         } else {
           console.error("Error deleting advisor:", response.statusText)
         }
