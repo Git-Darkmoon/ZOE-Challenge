@@ -2,7 +2,7 @@
 
 import AdvisorsTable from "@/components/AdvisorsTable"
 import Modal from "@/components/Modal"
-import { ROUTES } from "@/lib/routes"
+import { API_ROUTES } from "@/lib/routes"
 import { useSearchParams } from "next/navigation"
 import { FormEvent, useState } from "react"
 
@@ -54,7 +54,7 @@ export default function AdvisorsPage() {
     }
 
     try {
-      const response = await fetch(`${ROUTES.ADVISORS}`, {
+      const response = await fetch(`${API_ROUTES.ADVISORS}`, {
         method: "POST",
         body: JSON.stringify(newAdvisor),
       })
