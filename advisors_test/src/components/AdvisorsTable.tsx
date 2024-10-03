@@ -1,6 +1,12 @@
-import { ROUTES } from "@/lib/routes"
+import { API_ROUTES } from "@/lib/routes"
 import { Advisor } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils"
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 import { SetStateAction, useEffect, useState } from "react"
 
@@ -57,7 +63,7 @@ function AdvisorsTable({ income }: { income: string }) {
   useEffect(() => {
     const getAdvisors = async () => {
       try {
-        const response = await fetch(ROUTES.ADVISORS)
+        const response = await fetch(API_ROUTES.ADVISORS)
         const advisorsData: Advisor[] = await response.json()
 
         const newAdvisors = advisorsData.filter((advisor) => {
@@ -105,7 +111,9 @@ function AdvisorsTable({ income }: { income: string }) {
       ) : (
         <>
           <div className="table__filter">
-            <h1>{advisors.length} Advisors Found</h1>
+            <h1 className="table__results__title">
+              {advisors.length} Advisors Found
+            </h1>
             <select name="" id="">
               <option value="">All</option>
               <option value="">Male</option>
@@ -119,6 +127,7 @@ function AdvisorsTable({ income }: { income: string }) {
                   return (
                     <td className="table__heading" key={heading.value}>
                       <button
+                        className="table__heading__wrapper"
                         onClick={() => {
                           handleSort(
                             advisors,
@@ -132,12 +141,18 @@ function AdvisorsTable({ income }: { income: string }) {
                         <strong>{heading.label}</strong>
                         {sortedColumn === heading.value ? (
                           isDescendingOrder ? (
-                            <span>🔽</span>
+                            <div className="table__heading__wrapper__icon activeColumn">
+                              <ChevronDownIcon />
+                            </div>
                           ) : (
-                            <span>🔼</span>
+                            <div className="table__heading__wrapper__icon activeColumn">
+                              <ChevronUpIcon />
+                            </div>
                           )
                         ) : (
-                          <span>🔼</span>
+                          <div className="table__heading__wrapper__icon">
+                            <ChevronUpIcon />
+                          </div>
                         )}
                       </button>
                     </td>
@@ -162,20 +177,24 @@ function AdvisorsTable({ income }: { income: string }) {
               })}
             </tbody>
           </table>
-          <hr />
           {/* Table Controls */}
           <div className="table__controls">
-            <button disabled={currentPage === 1} onClick={handlePrevPage}>
-              Previous
+            <button
+              className="btn btn__ghost"
+              disabled={currentPage === 1}
+              onClick={handlePrevPage}
+            >
+              <ChevronLeftIcon />
             </button>
             <span>
               Page {currentPage} of {totalPages}
             </span>
             <button
+              className="btn btn__ghost"
               disabled={currentPage === totalPages}
               onClick={handleNextPage}
             >
-              Next
+              <ChevronRightIcon />
             </button>
           </div>
         </>
