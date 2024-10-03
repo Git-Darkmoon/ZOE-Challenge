@@ -107,7 +107,10 @@ function AdvisorsTable({ income }: { income: string }) {
   return (
     <>
       {advisors.length === 0 ? (
-        <h3>No advisors found</h3>
+        <h3>
+          No available Advisors based on the provided income. Please try a
+          different income value.
+        </h3>
       ) : (
         <>
           <div className="table__filter">
