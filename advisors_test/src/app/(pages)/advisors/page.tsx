@@ -3,10 +3,12 @@
 import AdvisorsTable from "@/components/AdvisorsTable"
 import Modal from "@/components/Modal"
 import { API_ROUTES } from "@/lib/routes"
+import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 
 export default function AdvisorsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const router = useRouter()
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -37,8 +39,10 @@ export default function AdvisorsPage() {
     // console.log(Object.fromEntries(formData))
 
     const advisorName = `${formData.get("name") as string} ${
-      formData.get("lastname") as string
+      formData.get("lastName") as string
     }`
+
+    console.log(formData.get("lastName") as string)
 
     const newAdvisor = {
       name: advisorName,
@@ -57,8 +61,11 @@ export default function AdvisorsPage() {
 
       if (response.ok) {
         const result = await response.json()
+        alert("Advisor created successfully")
         console.log("Advisor created:", result)
         closeModal()
+        router.push(`/advisors?income=${newAdvisor.income}`)
+        router.refresh()
       } else {
         console.error("Error creating advisor:", response.statusText)
       }
