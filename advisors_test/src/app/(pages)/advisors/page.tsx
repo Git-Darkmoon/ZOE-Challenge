@@ -3,13 +3,9 @@
 import AdvisorsTable from "@/components/AdvisorsTable"
 import Modal from "@/components/Modal"
 import { API_ROUTES } from "@/lib/routes"
-import { useSearchParams } from "next/navigation"
 import { FormEvent, useState } from "react"
 
 export default function AdvisorsPage() {
-  const searchParams = useSearchParams()
-  const income = searchParams.get("income")
-
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
@@ -86,7 +82,7 @@ export default function AdvisorsPage() {
       </div>
 
       <section className="advisors__container">
-        <AdvisorsTable income={income as string} />
+        <AdvisorsTable />
       </section>
     </>
   )
