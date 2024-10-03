@@ -3,7 +3,6 @@
 
   --clr-primary: #5373e3;
   --clr-primaryOnHover: hsl(227, 72%, 55%);
-  /* --clr-primaryGhost: hsla(227, 72%, 88%, 0.75); */
   --clr-primaryGhost: #ebeffd;
   --clr-gray: hsl(0, 0%, 40%);
   --clr-secondaryGray: hsla(226, 16%, 53%, 0.65);
