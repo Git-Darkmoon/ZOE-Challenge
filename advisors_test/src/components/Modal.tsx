@@ -2,11 +2,14 @@ import { useState } from "react"
 import Image from "next/image"
 import { FormEvent } from "react"
 import { Advisor } from "@/lib/types"
+import Input from "@/components/Input"
+import { UploadIcon } from "lucide-react"
 
 function Modal({
   isOpen,
   onClose,
   action,
+  advisorData,
 }: {
   isOpen: boolean
   onClose: () => void
@@ -29,13 +32,17 @@ function Modal({
     action(event)
   }
 
+  const advisorFirstName = advisorData?.name.split(" ")[0]
+  const advisorLastName = advisorData?.name.split(" ")[1]
+
   return (
     <div className={`modal ${isOpen && "modal--open"}`}>
       <article className="modal__card">
         <header className="modal__card__header">
-          <h3>Edit Advisor Information</h3>
+          <h3>
+            {advisorData ? `Edit Advisor Information` : "Add New Advisor "}
+          </h3>
         </header>
-        <hr />
         <form
           id="modal__card__form"
           onSubmit={handleSubmit}
@@ -45,12 +52,13 @@ function Modal({
           <div className="modal__card__pictureOptions">
             <Image
               className="pictureOptions__avatar"
-              src={avatarPreview}
+              src={advisorData?.avatar || avatarPreview}
               alt="avatar"
               width={96}
               height={96}
             />
             <label className="btn btn__outlined" htmlFor="pictureFile">
+              <UploadIcon size={16} />
               Upload Picture
             </label>
             <input
@@ -75,89 +83,65 @@ function Modal({
 
           <div className="modal__card__inputs">
             {/* Name */}
-            <div>
-              <label htmlFor="name">First Name</label>
-              <input
-                className="input"
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Johnny"
-                maxLength={20}
-                required
-              />
-            </div>
+            <Input
+              label="First name"
+              type="text"
+              name="name"
+              placeholder="Michael"
+              maxLength={20}
+              defaultValue={advisorFirstName}
+            />
 
             {/* Last Name */}
-            <div>
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                className="input"
-                type="text"
-                name="lastName"
-                id="lastName"
-                placeholder="Appleseed"
-                maxLength={20}
-                required
-              />
-            </div>
+            <Input
+              type="text"
+              label="Last Name"
+              name="lastName"
+              placeholder="Miller"
+              maxLength={20}
+              defaultValue={advisorLastName}
+            />
 
             {/* Income */}
-            <div>
-              <label htmlFor="income">Income</label>
-              <input
-                className="input"
-                type="number"
-                min={10_000}
-                max={99_999}
-                name="income"
-                id="income"
-                placeholder="125000"
-                required
-              />
-            </div>
+            <Input
+              label="Income"
+              type="number"
+              min={10_000}
+              max={99_999}
+              name="income"
+              placeholder="125000"
+              defaultValue={advisorData?.income}
+            />
 
             {/* Phone Number */}
-            <div>
-              <label htmlFor="phone">Phone Number</label>
-              <input
-                className="input"
-                type="tel"
-                name="phone"
-                id="phone"
-                placeholder="08012345678"
-                required
-              />
-            </div>
+            <Input
+              label="Phone Number"
+              type="tel"
+              name="phone"
+              placeholder="801-923-4567"
+              defaultValue={advisorData?.phone}
+            />
 
             {/* Email */}
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                className="input"
-                type="email"
-                name="email"
-                id="email"
-                placeholder="namv@zoefin.com"
-                required
-              />
-            </div>
+            <Input
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="namv@zoefin.com"
+              defaultValue={advisorData?.email}
+            />
 
             {/* Address */}
-            <div>
-              <label htmlFor="address">Address</label>
-              <input
-                className="input"
-                type="text"
-                name="address"
-                id="address"
-                placeholder="123 Main Street, London"
-                required
-              />
-            </div>
+            <Input
+              label="Address"
+              type="text"
+              name="address"
+              placeholder="123 Main Street, London"
+              defaultValue={advisorData?.address}
+              spellCheck={false}
+            />
           </div>
         </form>
-        <hr />
         <footer className="modal__card__footer">
           <button type="button" className="btn btn__ghost" onClick={onClose}>
             Go Back
