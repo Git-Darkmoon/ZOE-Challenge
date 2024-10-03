@@ -30,7 +30,7 @@ function Modal({
   }
 
   return (
-    <div className={`modal ${isOpen ? "modal--open" : ""}`}>
+    <div className={`modal ${isOpen && "modal--open"}`}>
       <article className="modal__card">
         <header className="modal__card__header">
           <h3>Edit Advisor Information</h3>
