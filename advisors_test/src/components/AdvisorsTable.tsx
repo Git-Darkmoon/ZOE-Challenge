@@ -55,7 +55,7 @@ function AdvisorsTable() {
     params.set("sort", sortedColumn || "name")
     params.set("order", isDescendingOrder ? "desc" : "asc")
     params.set("limit", quantityOfUsersToBeShown.toString())
-    router.replace(`?${params.toString()}`)
+    router.replace(`?${params.toString()}`, { scroll: false })
   }
 
   useEffect(() => {
@@ -112,7 +112,7 @@ function AdvisorsTable() {
       selectedOption === "all" ? totalUsers : Number(selectedOption)
 
     setQuantityOfUsersToBeShown(amountOfUsersSelected)
-    setCurrentPage(1) // Reset to the first page when changing the limit
+    setCurrentPage(1)
   }
 
   const toggleSortingOrder = () => {
@@ -141,7 +141,7 @@ function AdvisorsTable() {
   }
 
   const goToDetailsPage = (id: number) => {
-    router.push(`/advisors/${id}`)
+    router.push(`/advisors/${id}`, { scroll: false })
   }
 
   return (
