@@ -47,6 +47,7 @@ function Modal({
           id="modal__card__form"
           onSubmit={handleSubmit}
           className="modal__card__form"
+          data-testid="modal__card__form"
         >
           {/* Picture options */}
           <div className="modal__card__pictureOptions">
