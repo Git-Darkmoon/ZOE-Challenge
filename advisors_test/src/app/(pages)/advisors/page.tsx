@@ -16,6 +16,10 @@ export default function AdvisorsPage() {
     setIsModalOpen(true)
   }
 
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
   const handleAddAdvisor = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -34,23 +38,37 @@ export default function AdvisorsPage() {
       formData.append("avatar", avatarFile)
     }
 
-    console.log(Object.fromEntries(formData))
+    // console.log(Object.fromEntries(formData))
 
-    // try {
-    //   const response = await fetch(`${ROUTES.ADVISORS}`, {
-    //     method: "POST",
-    //     body: JSON.stringify(formData),
-    //   })
+    const advisorName = `${formData.get("name") as string} ${
+      formData.get("lastname") as string
+    }`
 
-    //   if (response.ok) {
-    //     const result = await response.json()
-    //     console.log("Advisor created:", result)
-    //   } else {
-    //     console.error("Error creating advisor:", response.statusText)
-    //   }
-    // } catch (error) {
-    //   console.error("Network error:", error)
-    // }
+    const newAdvisor = {
+      name: advisorName,
+      avatar: avatarFile,
+      income: Number(formData.get("income") as string),
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      address: formData.get("address") as string,
+    }
+
+    try {
+      const response = await fetch(`${ROUTES.ADVISORS}`, {
+        method: "POST",
+        body: JSON.stringify(newAdvisor),
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log("Advisor created:", result)
+        closeModal()
+      } else {
+        console.error("Error creating advisor:", response.statusText)
+      }
+    } catch (error) {
+      console.error("Network error:", error)
+    }
   }
 
   return (
