@@ -1,95 +1,58 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
 
-export default function Home() {
+import { useRouter } from "next/navigation"
+import { FormEvent, useState } from "react"
+import Image from "next/image"
+import "./index.css"
+
+function Home() {
+  const navigate = useRouter()
+  const [incomeValue, setIncomeValue] = useState("")
+
+  const sendIncome = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!incomeValue) return
+
+    navigate.push(`/advisors?income=${incomeValue}`)
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="home">
+      <Image
+        src={"/zoe_logo.svg"}
+        alt="Zoe Financial Logo"
+        width={140}
+        height={60}
+      />
+      <div className="home__text">
+        <h2 className="home__text--title">Find your company Advisors!</h2>
+        <p className="home__text--paragraph">
+          Search by income to find your advisors
+        </p>
+      </div>
+      <form className="home__incomeForm" onSubmit={sendIncome}>
+        <label className="home__incomeForm--label" htmlFor="income">
+          Current income
+        </label>
+        <input
+          className="input"
+          type="number"
+          name="income"
+          id="income"
+          value={incomeValue}
+          onChange={(e) => setIncomeValue(e.target.value)}
+          min="10000.00"
+          max="99999.99"
+          step="0.01"
+          autoComplete="off"
+          title="Enter a positive number with 5 characters"
+          required
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <button className="btn btn__primary" type="submit">
+          Search
+        </button>
+      </form>
     </div>
-  );
+  )
 }
+export default Home
