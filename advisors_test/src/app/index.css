@@ -97,6 +97,7 @@ body {
 
 .btn__ghost:disabled {
   color: var(--clr-primaryGhost);
+  background-color: transparent;
 }
 
 .btn__danger {
@@ -281,6 +282,16 @@ body {
   font-family: sans-serif;
 }
 
+.table__filter__select {
+  cursor: pointer;
+  outline: none;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--clr-primaryGhost);
+  color: var(--clr-gray);
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -299,6 +310,11 @@ body {
   justify-content: space-between;
   gap: 0.5rem;
   color: var(--clr-black);
+}
+
+.table__heading__wrapper p {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .table__heading__wrapper__icon {
