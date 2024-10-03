@@ -1,85 +1,75 @@
-'use client'
+"use client"
 
+import AdvisorsTable from "@/components/AdvisorsTable"
+import Modal from "@/components/Modal"
 import { ROUTES } from "@/lib/routes"
-import { Advisor } from "@/lib/types"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { FormEvent, useState } from "react"
 
 export default function AdvisorsPage() {
+  const searchParams = useSearchParams()
+  const income = searchParams.get("income")
 
-    const searchParams = useSearchParams()
-    const income = searchParams.get('income')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-    const [advisors,setAdvisors] = useState<Advisor[]>([])
-    // const [filteredAdvisors,setFilteredAdvisors] = useState<Advisor[]>([])
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
 
+  const handleAddAdvisor = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-    useEffect(() => {
+    const form = event.target as HTMLFormElement
+    const formData = new FormData(form)
 
-        const getAdvisors = async () => {
-            const response = await fetch(ROUTES.ADVISORS)
-            const advisorsData:Advisor[] = await response.json()
+    // It is not possible to upload to the API the real image file
+    // due to the image hosting, so we are using a dummy one.
+    // const avatarFile = formData.get("avatar") as File
 
-    const newAdvisors =         advisorsData.filter((advisor) => {
-    
-                const startingRange = Number(income) - 10_000
-                const maxRange = Number(income) + 10_000
-                
-                return (
-                    
-                    advisor.income >= startingRange && advisor.income <= maxRange   
-                    
-                )
-            })
-            setAdvisors(newAdvisors)
+    const randomPic = Math.floor(Math.random() * 100)
 
+    const avatarFile = `https://randomuser.me/api/portraits/men/${randomPic}.jpg`
 
-        }
+    if (avatarFile) {
+      formData.append("avatar", avatarFile)
+    }
 
-getAdvisors()
+    console.log(Object.fromEntries(formData))
 
-},[])
+    // try {
+    //   const response = await fetch(`${ROUTES.ADVISORS}`, {
+    //     method: "POST",
+    //     body: JSON.stringify(formData),
+    //   })
 
+    //   if (response.ok) {
+    //     const result = await response.json()
+    //     console.log("Advisor created:", result)
+    //   } else {
+    //     console.error("Error creating advisor:", response.statusText)
+    //   }
+    // } catch (error) {
+    //   console.error("Network error:", error)
+    // }
+  }
 
+  return (
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        action={handleAddAdvisor}
+      />
+      <div className="advisors__header">
+        <h1 className="advisors__title">Advisors</h1>
+        <button type="button" onClick={openModal} className="btn btn__primary">
+          + Add New Advisor
+        </button>
+      </div>
 
-    return (
-<>
-
-<div>
-
-<h1>
-    Advisors</h1>
-    <button type="button">New Advisor</button>
-</div>
-
-        <table>
-            <thead>
-                <tr>
-                    <td>Id</td>
-                    <td>Id</td>
-                    <td>Id</td>
-                    <td>Id</td>
-                </tr>
-            </thead>
-<tbody>
-
-        {advisors.map((advisor) => {
-            
-            const {id,name,income} = advisor
-
-
-            return (
-                <tr key={id}>
-                    <td>{id}</td>
-                    <td>{name}</td>
-                    <td>{income}</td>
-                </tr>    
-            )
-            
-        })}
-        </tbody>
-        </table>
-</>
-
-    )
+      <section className="advisors__container">
+        <AdvisorsTable income={income as string} />
+      </section>
+    </>
+  )
 }
