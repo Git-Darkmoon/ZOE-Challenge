@@ -1,4 +1,5 @@
-# Front-End Test Exercise
+# ZOE Financial | Front-End Exercise
+![zoe-financial-ograph](https://github.com/user-attachments/assets/22d257f8-7fa2-4d1c-a6b0-faf9b475e145)
 
 ## Goal
 
