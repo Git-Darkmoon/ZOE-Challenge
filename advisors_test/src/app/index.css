@@ -38,10 +38,20 @@ body {
 }
 
 .input {
+  width: 100%;
   padding-inline: 1rem;
   padding-block: 0.5rem;
   border-radius: var(--borderRadius);
   border: 1px solid #ccc;
+}
+
+.labelInput {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--clr-gray);
+  text-transform: capitalize;
 }
 
 .btn {
@@ -144,9 +154,16 @@ body {
 }
 
 .modal__card__header {
-  padding-block-end: 0.5rem;
+  padding-block-end: 1.25rem;
+  padding-block-start: 0.25rem;
   font-weight: 900;
   font-family: sans-serif;
+  color: var(--clr-gray);
+}
+
+.modal__card__form {
+  border-top: 2px solid var(--clr-primaryGhost);
+  border-bottom: 2px solid var(--clr-primaryGhost);
 }
 
 .modal__card__footer {
@@ -160,7 +177,8 @@ body {
 .modal__card__inputs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  column-gap: 1.2rem;
+  row-gap: 1.5rem;
   padding-block-end: 1rem;
 }
 
@@ -200,7 +218,10 @@ body {
 }
 
 .home__text--title {
-  font-size: 1.45rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
 }
 .home__text--paragraph {
   font-size: 1rem;
