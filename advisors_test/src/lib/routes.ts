@@ -6,5 +6,6 @@ export enum API_ROUTES {
 }
 
 export enum ROUTES {
+  HOME = "/",
   ADVISORS = `${baseURL}/advisors`,
 }
