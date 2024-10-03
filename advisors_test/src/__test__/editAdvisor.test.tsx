@@ -17,12 +17,18 @@ describe("Edit Advisor Flow", () => {
       />
     )
 
-    expect(screen.getByLabelText(/First name/i)).toHaveValue("John")
-    expect(screen.getByLabelText(/Last name/i)).toHaveValue("Doe")
-    expect(screen.getByLabelText(/Income/i)).toHaveValue(50000)
-    expect(screen.getByLabelText(/Phone Number/i)).toHaveValue("123-456-7890")
-    expect(screen.getByLabelText(/Email/i)).toHaveValue("john.doe@example.com")
-    expect(screen.getByLabelText(/Address/i)).toHaveValue("123 Main St, City")
+    expect(screen.getByLabelText(/First name/i)).toHaveValue(
+      advisorData.name.split(" ")[0]
+    )
+    expect(screen.getByLabelText(/Last name/i)).toHaveValue(
+      advisorData.name.split(" ")[1]
+    )
+    expect(screen.getByLabelText(/Income/i)).toHaveValue(advisorData.income)
+    expect(screen.getByLabelText(/Phone Number/i)).toHaveValue(
+      advisorData.phone
+    )
+    expect(screen.getByLabelText(/Email/i)).toHaveValue(advisorData.email)
+    expect(screen.getByLabelText(/Address/i)).toHaveValue(advisorData.address)
   })
 
   it("should allow the user to edit and submit the advisor's information", () => {
