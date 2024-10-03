@@ -11,9 +11,10 @@ import {
   SquarePenIcon,
   Trash2Icon,
 } from "lucide-react"
+import { revalidatePath } from "next/cache"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 
 function AdvisorDetailsPage({ params }: { params: { advisorId: string } }) {
   const { advisorId } = params
@@ -37,13 +38,80 @@ function AdvisorDetailsPage({ params }: { params: { advisorId: string } }) {
     setIsModalOpen(true)
   }
 
-  const handleDelete = () => {
-    confirm(
+  const handleDelete = async () => {
+    const isConfirmed = confirm(
       "Are you sure you want to delete this advisor ? \n(This action cannot be undone)"
     )
+
+    if (isConfirmed) {
+      try {
+        const response = await fetch(`${API_ROUTES.ADVISORS}/${advisorId}`, {
+          method: "DELETE",
+        })
+
+        if (response.ok) {
+          alert("Advisor deleted successfully")
+          navigate.replace(ROUTES.HOME)
+        } else {
+          console.error("Error deleting advisor:", response.statusText)
+        }
+      } catch (error) {
+        console.error("Network error:", error)
+      }
+    }
   }
-  const handleEdit = () => {
-    openModal()
+  const handleEdit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const form = event.target as HTMLFormElement
+    const formData = new FormData(form)
+
+    // It is not possible to upload to the API the real image file
+    // due to the image hosting, so we are using a dummy one.
+    // const avatarFile = formData.get("avatar") as File
+
+    const randomPic = Math.floor(Math.random() * 100)
+
+    const avatarFile = `https://randomuser.me/api/portraits/men/${randomPic}.jpg`
+
+    if (avatarFile) {
+      formData.append("avatar", avatarFile)
+    }
+
+    const advisorName = `${formData.get("name") as string} ${
+      formData.get("lastName") as string
+    }`
+
+    const updatedAdvisor = {
+      name: advisorName,
+      avatar: avatarFile,
+      income: Number(formData.get("income") as string),
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      address: formData.get("address") as string,
+    }
+
+    try {
+      const response = await fetch(`${API_ROUTES.ADVISORS}/${advisorId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedAdvisor),
+      })
+
+      if (response.ok) {
+        const updatedData = await response.json()
+        setAdvisor(updatedData)
+        alert("Advisor updated successfully")
+        setIsModalOpen(false)
+        revalidatePath(`/advisors/${advisorId}`)
+      } else {
+        console.error("Error updating advisor:", response.statusText)
+      }
+    } catch (error) {
+      console.error("Network error:", error)
+    }
   }
 
   const goBackToAdvisorsList = () => {
@@ -56,7 +124,7 @@ function AdvisorDetailsPage({ params }: { params: { advisorId: string } }) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         advisorData={advisor}
-        action={() => console.log("edit")}
+        action={handleEdit}
       />
       <article>
         <button
@@ -85,7 +153,7 @@ function AdvisorDetailsPage({ params }: { params: { advisorId: string } }) {
               </button>
               <button
                 type="button"
-                onClick={handleEdit}
+                onClick={openModal}
                 className="btn btn__outlined"
               >
                 <SquarePenIcon size={18} /> Edit Advisor
